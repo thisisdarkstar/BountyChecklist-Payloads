@@ -15,8 +15,14 @@
         }
         body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 20px; }
         .terminal { border: 1px solid var(--border); background: var(--container); padding: 25px; border-radius: 8px; max-width: 900px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 20px; padding-bottom: 10px; }
+        
+        /* Updated Header for Navigation */
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 20px; padding-bottom: 15px; }
+        .header-title { display: flex; align-items: center; gap: 8px; }
+        .back-link { color: #8b949e; text-decoration: none; font-family: monospace; font-size: 1.1rem; transition: color 0.2s; }
+        .back-link:hover { color: var(--link); }
         .header h2 { margin: 0; font-size: 1.2rem; color: var(--link); font-family: monospace; }
+        
         ul { list-style: none; padding: 0; }
         li { padding: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; }
         .file-icon { margin-right: 15px; font-weight: bold; color: var(--accent); min-width: 60px; font-family: monospace; font-size: 0.8rem; }
@@ -24,13 +30,18 @@
         .file-name:hover { color: var(--link); text-decoration: underline; }
         .copy-btn { background: #21262d; border: 1px solid var(--border); color: #8b949e; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; margin-left: 10px; transition: 0.2s; }
         .copy-btn:hover { background: #30363d; color: white; border-color: #8b949e; }
+        #status { font-family: monospace; font-size: 0.85rem; color: #8b949e; }
     </style>
 </head>
 <body>
 
 <div class="terminal">
     <div class="header">
-        <h2>~/BountyChecklist-Payloads/payloads/</h2>
+        <div class="header-title">
+            <a href="../" class="back-link" title="Go back to Home">~</a>
+            <span>/</span>
+            <h2>BountyChecklist-Payloads/payloads/</h2>
+        </div>
         <small id="status">Syncing master branch...</small>
     </div>
     <ul id="payload-list">
@@ -41,7 +52,7 @@
 <script>
     const USER = 'thisisdarkstar';
     const REPO = 'BountyChecklist-Payloads';
-    const BRANCH = 'master'; // Explicitly set to master
+    const BRANCH = 'master'; 
     const FOLDER = 'payloads';
 
     async function getFiles() {
@@ -49,7 +60,6 @@
         const status = document.getElementById('status');
         
         try {
-            // Fetch list from GitHub API
             const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/${FOLDER}?ref=${BRANCH}`);
             const data = await response.json();
 
@@ -64,7 +74,6 @@
             data.forEach(file => {
                 if (file.name === 'index.html') return; 
 
-                // Constructing the specific Raw URL format you provided
                 const rawUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/refs/heads/${BRANCH}/${FOLDER}/${file.name}`;
                 const ext = file.name.includes('.') ? file.name.split('.').pop().toUpperCase() : 'FILE';
                 
