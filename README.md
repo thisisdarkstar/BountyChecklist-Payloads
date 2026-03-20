@@ -56,5 +56,5 @@ This repository is designed to be hosted on GitHub Pages. Once hosted, the paylo
 In `sidebar.js`, update the PAYLOADS_URL to your GitHub Pages URL:
 
 ```javascript
-const PAYLOADS_URL = 'https://[username].github.io/BountyChecklist-Payloads/payloads/';
+const PAYLOADS_URL = 'https://thisisdarkstar.github.io/BountyChecklist-Payloads/payloads/';
 ```
