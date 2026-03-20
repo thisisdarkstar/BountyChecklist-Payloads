@@ -1,0 +1,8 @@
+[
+  "{__schema{types{name}}}",
+  "{__typename}",
+  "{id: 1}",
+  "{\"query\": \"{__schema{types{name}}}\"}",
+  "{user(id: \"1\"){id, name, email}}",
+  "__ introspection{ types { name fields { name type { name kind ofType { name } } } } }"
+]

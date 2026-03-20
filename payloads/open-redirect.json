@@ -1,0 +1,21 @@
+[
+  "https://google.com",
+  "//google.com",
+  "///google.com",
+  "/\\/google.com",
+  "/\\google.com",
+  "%00google.com",
+  "%0dgoogle.com",
+  "%0agithub.com",
+  "%20github.com",
+  "%09github.com",
+  "%E5%98%8Dgoogle.com",
+  "%E5%98%8Agoogle.com",
+  "%E5%98%8Dgoogle.com",
+  "%E5%98%8Agoogle.com",
+  "%E5%98%8Egoogle.com",
+  "%E5%98%8Fgoogle.com",
+  "%E5%98%9Agoogle.com",
+  "%E5%98%9Bgoogle.com",
+  "%E5%98%9Cgoogle.com"
+]
