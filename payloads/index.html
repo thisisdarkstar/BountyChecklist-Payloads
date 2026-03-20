@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounty Payloads | Live Index</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --container: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --link: #58a6ff;
+            --accent: #7ee787;
+        }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Segoe UI', Tahoma, sans-serif; margin: 20px; }
+        .terminal { border: 1px solid var(--border); background: var(--container); padding: 25px; border-radius: 8px; max-width: 900px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 20px; padding-bottom: 10px; }
+        .header h2 { margin: 0; font-size: 1.2rem; color: var(--link); }
+        ul { list-style: none; padding: 0; }
+        li { padding: 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; transition: background 0.2s; }
+        li:hover { background: #1f242c; }
+        .file-icon { margin-right: 15px; font-weight: bold; color: var(--accent); min-width: 50px; }
+        .file-name { flex-grow: 1; text-decoration: none; color: var(--text); font-weight: 500; }
+        .file-name:hover { color: var(--link); }
+        .copy-btn { background: #21262d; border: 1px solid var(--border); color: #8b949e; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 0.75rem; margin-left: 10px; }
+        .copy-btn:hover { background: #30363d; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <div class="header">
+        <h2>/payloads/</h2>
+        <small id="status">Syncing with GitHub...</small>
+    </div>
+    <ul id="payload-list">
+        <li>Scanning repository...</li>
+    </ul>
+</div>
+
+<script>
+    const USER = 'thisisdarkstar';
+    const REPO = 'BountyChecklist-Payloads';
+    const PATH = 'payloads';
+
+    async function getFiles() {
+        const list = document.getElementById('payload-list');
+        const status = document.getElementById('status');
+        
+        try {
+            const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/${PATH}`);
+            const data = await response.json();
+
+            if (!Array.isArray(data)) {
+                list.innerHTML = "<li>No files found in /payloads folder.</li>";
+                return;
+            }
+
+            list.innerHTML = ''; // Clear status
+            status.innerText = `${data.length} items found`;
+
+            data.forEach(file => {
+                if (file.name === 'index.html') return; // Hide self
+
+                const li = document.createElement('li');
+                const rawUrl = `https://raw.githubusercontent.com/${USER}/${REPO}/main/${file.path}`;
+                
+                li.innerHTML = `
+                    <span class="file-icon">[${file.name.split('.').pop().toUpperCase()}]</span>
+                    <a href="${rawUrl}" class="file-name" target="_blank">${file.name}</a>
+                    <button class="copy-btn" onclick="copyToClipboard('${rawUrl}')">Copy URL</button>
+                `;
+                list.appendChild(li);
+            });
+        } catch (e) {
+            list.innerHTML = "<li>Error loading files. Check if repo is public.</li>";
+        }
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Raw Payload URL copied!');
+        });
+    }
+
+    getFiles();
+</script>
+
+</body>
+</html>
